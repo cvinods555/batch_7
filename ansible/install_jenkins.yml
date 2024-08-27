@@ -1,0 +1,41 @@
+---
+- name: Install Jenkins
+  hosts: all
+  become: yes
+  tasks:
+    - name: Remove existing Jenkins repository (if any)
+      file:
+        path: /etc/apt/sources.list.d/jenkins.list
+        state: absent
+
+    - name: Update apt package index
+      apt:
+        update_cache: yes
+
+    - name: Install Java (Jenkins dependency)
+      apt:
+        name: openjdk-11-jdk
+        state: present
+
+    - name: Download Jenkins repository key
+      get_url:
+        url: https://pkg.jenkins.io/debian/jenkins.io.key
+        dest: /usr/share/keyrings/jenkins-keyring.asc
+
+    - name: Add Jenkins repository to the sources list
+      apt_repository:
+        repo: "deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] http://pkg.jenkins.io/debian-stable binary/"
+        filename: jenkins
+        state: present
+
+    - name: Install Jenkins
+      apt:
+        name: jenkins
+        state: present
+
+    - name: Ensure Jenkins is started and enabled at boot
+      systemd:
+        name: jenkins
+        enabled: yes
+        state: started
+
