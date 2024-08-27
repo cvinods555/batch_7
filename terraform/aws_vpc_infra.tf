@@ -114,3 +114,9 @@ output "instance_details"{
 }
 }
 
+output "ec2_info" {
+  value = <<EOF
+EC2 public IP: ${aws_instance.web.public_ip},
+Key used: ${aws_instance.web.key_name}
+EOF
+}

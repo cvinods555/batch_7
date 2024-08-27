@@ -1,0 +1,27 @@
+-
+  name: Install nginx and enable
+  hosts: servers
+  become: yes
+  tasks:
+    - name: Install nginx
+      ansible.builtin.apt:
+        name: nginx
+        state: latest
+
+    - name: Start& Enable Nginx
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+
+    - name: Install Docker
+      ansible.builtin.apt:
+        name: docker.io
+        state: latest
+
+    - name: Start& Enable Nginx
+      service:
+        name: docker
+        state: started
+        enabled: yes
+

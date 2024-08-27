@@ -1,0 +1,12 @@
+-
+  name: Show date
+  hosts: servers
+  tasks:
+    - name: this should show the date
+      command: date
+    - name: this should show uptime
+      command: uptime
+    - name: this should show the process
+      command: top
+
+

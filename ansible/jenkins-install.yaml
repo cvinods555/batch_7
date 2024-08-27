@@ -1,0 +1,17 @@
+- hosts: servers
+  become: true
+  tasks:
+    - name: Install Java
+      apt: pkg=default-jdk state=present
+
+    - name: Add Jenkins repository
+      apt_repository: repo='deb http://pkg.jenkins-ci.org/debian-stable binary/' state=present
+
+    - name: Update apt cache
+      apt: update_cache=yes
+
+    - name: Install Jenkins
+      apt: pkg=jenkins state=present
+
+    - name: Start Jenkins service
+      service: name=jenkins state=started
